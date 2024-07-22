@@ -1,0 +1,35 @@
+/* Navigating to Add Doctor page */
+		Admin1_Dashboard_Page adp = new Admin1_Dashboard_Page(driver);
+		adp.getDoctordropdown().click();
+		Admin1_Add_Doctor_Page aadp = new Admin1_Add_Doctor_Page(driver);
+		aadp.getAddDoctor().click();
+		String AddDoctorActualTiltle="Admin | Add Doctor";
+		String AddDoctorExpectedTitle = driver.getTitle();
+		Assert.assertEquals(AddDoctorActualTiltle,AddDoctorExpectedTitle);
+		UtilityClassObject.getTest().log(Status.PASS, "----Add Doctor page is displayed-----");
+		Reporter.log("==Adding Doctor page is displayed==",true);
+		
+		/* Fetching the data from Excel file */
+		String doctorspecialization = eLib.getDataFromExceladmin1("Admin1", 1, 2);
+		String doctorName = eLib.getDataFromExceladmin1("Admin1", 1, 3);
+		String doctoraddress = eLib.getDataFromExceladmin1("Admin1", 1, 4);
+		String doctorfees = eLib.getDataFromExceladmin1("Admin1", 1, 5);
+		String doctorph_no = eLib.getDataFromExceladmin1("Admin1", 1, 6);
+		String doctoremail = eLib.getDataFromExceladmin1("Admin1", 1, 7) + jLib.getRandomNumber();
+		String emailcom = eLib.getDataFromExceladmin1("Admin1", 1, 8);
+		String email = doctoremail + emailcom;
+		String doctorpassword = eLib.getDataFromExceladmin1("Admin1", 1, 9);
+		String doctorcpassword = eLib.getDataFromExceladmin1("Admin1", 1, 10);
+
+		/* Creating the doctor */
+		aadp.addDoctor(doctorspecialization, doctorName, doctoraddress, doctorfees, doctorph_no, email, doctorpassword,doctorcpassword);
+		wLib.switchtoAlertAndAccept(driver);
+		UtilityClassObject.getTest().log(Status.INFO, "----Doctor created-----");
+		Reporter.log("----Doctor created-----",true);
+		
+		/* Verifying Manage doctors page is displayed after adding doctor */
+		String ManageDoctorsActualTiltle="Admin | Manage Doctors";
+		String ManageDoctorExpectedTitle = driver.getTitle();
+		Assert.assertEquals(ManageDoctorsActualTiltle,ManageDoctorExpectedTitle);
+		UtilityClassObject.getTest().log(Status.PASS, "----Manage Doctors page is displayed-----");
+		Reporter.log("==Manage  Doctor page is displayed==",true);
